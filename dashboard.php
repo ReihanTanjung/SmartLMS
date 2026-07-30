@@ -26,6 +26,8 @@ $totalQuiz = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total FR
 
 <link rel="stylesheet" href="assets/css/dashboard.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="manifest" href="/SmartLMS/manifest.json">
+<meta name="theme-color" content="#6C4CF1">
 
 </head>
 
@@ -234,7 +236,19 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 
 </script>
-
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/SmartLMS/service-worker.js')
+            .then(function(registration) {
+                console.log('Service Worker berhasil didaftarkan:', registration.scope);
+            })
+            .catch(function(error) {
+                console.log('Service Worker gagal:', error);
+            });
+    });
+}
+</script>
 </body>
 
 </html>
