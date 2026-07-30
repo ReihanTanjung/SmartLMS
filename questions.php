@@ -162,6 +162,8 @@ onclick="hapusQuestion(<?= $row['id']; ?>, <?= $quiz_id; ?>)">
 
 <?php include 'includes/footer.php'; ?>
 
+
+
 </body>
 
 <script>

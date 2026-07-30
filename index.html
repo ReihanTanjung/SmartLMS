@@ -4,6 +4,8 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="/SmartLMS/manifest.json">
+<meta name="theme-color" content="#6C4CF1">
 
 <title>SmartLMS</title>
 
@@ -263,6 +265,14 @@ Daftar Sekarang
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
-
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/SmartLMS/service-worker.js')
+            .then(reg => console.log('Service Worker aktif:', reg.scope))
+            .catch(err => console.error('Service Worker gagal:', err));
+    });
+}
+</script>
 </body>
 </html>

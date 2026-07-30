@@ -27,6 +27,7 @@ ORDER BY students.id DESC
 
 <link rel="stylesheet" href="assets/css/dashboard.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 </head>
 
@@ -172,6 +173,8 @@ function hapusStudent(id){
 }
 
 </script>
+
+<script src="assets/js/app.js"></script>
 
 </body>
 </html>

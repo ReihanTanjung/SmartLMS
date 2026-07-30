@@ -28,11 +28,13 @@ $totalQuiz = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total FR
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="manifest" href="/SmartLMS/manifest.json">
 <meta name="theme-color" content="#6C4CF1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 </head>
 
 
 <body>
+    
 
 <?php include 'includes/sidebar.php'; ?>
 <?php include 'includes/navbar.php'; ?>
@@ -249,6 +251,9 @@ if ('serviceWorker' in navigator) {
     });
 }
 </script>
+
+
+<script src="assets/js/app.js"></script>
 </body>
 
 </html>

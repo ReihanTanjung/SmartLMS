@@ -41,6 +41,8 @@ if (isset($_POST['login'])) {
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/auth.css">
+    <link rel="manifest" href="/SmartLMS/manifest.json">
+<meta name="theme-color" content="#6C4CF1">
 </head>
 
 <body class="login-page">

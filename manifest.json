@@ -2,7 +2,7 @@
   "name": "SmartLMS",
   "short_name": "SmartLMS",
   "description": "Learning Management System",
-  "start_url": "/SmartLMS/index.php",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#6C4CF1",

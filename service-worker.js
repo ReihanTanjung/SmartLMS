@@ -1,22 +1,21 @@
 const CACHE_NAME = "smartlms-v1";
 
 const urlsToCache = [
-  "/SmartLMS/",
-  "/SmartLMS/index.php",
-  "/SmartLMS/login.php",
-  "/SmartLMS/assets/css/style.css"
+  "./dashboard.php"
 ];
 
-self.addEventListener("install", event => {
-    event.waitUntil(
-        caches.open(CACHE_NAME)
-            .then(cache => cache.addAll(urlsToCache))
-    );
+self.addEventListener("install", (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(urlsToCache);
+    })
+  );
 });
 
-self.addEventListener("fetch", event => {
-    event.respondWith(
-        caches.match(event.request)
-            .then(response => response || fetch(event.request))
-    );
+self.addEventListener("fetch", (event) => {
+  event.respondWith(
+    caches.match(event.request).then((response) => {
+      return response || fetch(event.request);
+    })
+  );
 });
