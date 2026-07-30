@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['id'])) {
+if(!isset($_SESSION['id'])){
     header("Location: login.php");
     exit;
 }
@@ -9,29 +9,87 @@ if (!isset($_SESSION['id'])) {
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Dashboard - SmartLMS</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<meta charset="UTF-8">
+
+<title>Dashboard</title>
+
+<link rel="stylesheet" href="assets/css/dashboard.css">
+
 </head>
+
 <body>
 
-<div class="container mt-5">
+<?php include 'includes/sidebar.php'; ?>
 
-    <h1>Dashboard</h1>
-    <hr>
+<?php include 'includes/navbar.php'; ?>
 
-    <h3>
-        Selamat Datang, <?= htmlspecialchars($_SESSION['nama']) ?> 👋
-    </h3>
+<div class="content">
 
-    <p>Login berhasil.</p>
+<h1>Learning Overview</h1>
 
-    <a href="logout.php" class="btn btn-danger mt-3">
-        Logout
-    </a>
+<p>Selamat datang kembali, <?= $_SESSION['nama']; ?> 👋</p>
+
+<div class="cards">
+
+<div class="card-box">
+
+<h4>📚 Courses</h4>
+
+<h2>12</h2>
+
+<p>Total Course</p>
+
+</div>
+
+<div class="card-box">
+
+<h4>👨‍🎓 Students</h4>
+
+<h2>35</h2>
+
+<p>Total Student</p>
+
+</div>
+
+<div class="card-box">
+
+<h4>👨‍🏫 Mentors</h4>
+
+<h2>5</h2>
+
+<p>Total Mentor</p>
+
+</div>
+
+<div class="card-box">
+
+<h4>📝 Quiz</h4>
+
+<h2>8</h2>
+
+<p>Total Quiz</p>
+
+</div>
+
+</div>
+
+<div class="card-box">
+
+<h4>Quiz</h4>
+
+<h2>8</h2>
+
+</div>
+
+</div>
+
+<?php include 'includes/footer.php'; ?>
 
 </div>
 
 </body>
+
 </html>
