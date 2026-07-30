@@ -1,0 +1,12 @@
+# VS Code
+.vscode/
+
+# XAMPP
+xampp/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
