@@ -34,57 +34,89 @@ $result = mysqli_query($conn, "SELECT * FROM courses ORDER BY id DESC");
 
     <div class="page-header">
 
+    <div>
         <h1>📚 Courses</h1>
+
         <div class="search-box">
+            <input
+                type="text"
+                id="searchCourse"
+                placeholder="🔍 Cari course...">
+        </div>
+    </div>
 
-    <input
-        type="text"
-        id="searchCourse"
-        placeholder="🔍 Cari course...">
+    <a href="tambah_course.php" class="btn-purple">
+        + Tambah Course
+    </a>
 
 </div>
 
-        <a href="tambah_course.php" class="btn-purple">
-            + Tambah Course
-        </a>
+   <div class="course-grid">
 
-    </div>
+<?php if(mysqli_num_rows($result) > 0){ ?>
 
-    <div class="course-grid">
+    <?php while($course = mysqli_fetch_assoc($result)){ ?>
 
-        <?php while($course = mysqli_fetch_assoc($result)) { ?>
+        <div class="course-card course-item">
 
-            <div class="course-card">
+            <h3>📚 <?= htmlspecialchars($course['nama_course']); ?></h3>
 
-    <h3>📚 <?= htmlspecialchars($course['nama_course']); ?></h3>
+            <p><?= nl2br(htmlspecialchars($course['deskripsi'])); ?></p>
 
-    <p><?= nl2br(htmlspecialchars($course['deskripsi'])); ?></p>
+            <small>
+                👨‍🏫 Mentor :
+                <b><?= htmlspecialchars($course['mentor']); ?></b>
+            </small>
 
-    <small>
-        👨‍🏫 Mentor :
-        <b><?= htmlspecialchars($course['mentor']); ?></b>
-    </small>
+            <div class="course-action">
 
-    <div class="course-action">
+                <a href="edit_course.php?id=<?= $course['id']; ?>">✏ Edit</a>
 
-        <a href="edit_course.php?id=<?= $course['id']; ?>">✏ Edit</a>
-
-        <a href="hapus_course.php?id=<?= $course['id']; ?>"
-           onclick="return confirm('Yakin ingin menghapus course ini?')">
-            🗑 Hapus
-        </a>
-
-    </div>
-
-</div>
+                <a href="hapus_course.php?id=<?= $course['id']; ?>"
+                   onclick="return confirm('Yakin ingin menghapus course ini?')">
+                    🗑 Hapus
+                </a>
 
             </div>
 
-        <?php } ?>
+        </div>
 
+    <?php } ?>
+
+<?php } else { ?>
+
+    <div class="empty-course">
+        <h3>📚 Belum ada course</h3>
+        <p>Silakan klik <b>+ Tambah Course</b> untuk membuat course pertama.</p>
     </div>
 
+<?php } ?>
+
 </div>
+
+<script>
+const search = document.getElementById('searchCourse');
+
+search.addEventListener('keyup', function(){
+
+    const keyword = this.value.toLowerCase();
+
+    const courses = document.querySelectorAll('.course-item');
+
+    courses.forEach(course => {
+
+        const text = course.innerText.toLowerCase();
+
+        if(text.includes(keyword)){
+            course.style.display = "block";
+        }else{
+            course.style.display = "none";
+        }
+
+    });
+
+});
+</script>
 
 </body>
 </html>

@@ -1,10 +1,28 @@
 <?php
 session_start();
 
-if(!isset($_SESSION['id'])){
+if (!isset($_SESSION['id'])) {
     header("Location: login.php");
     exit;
 }
+
+include 'config/koneksi.php';
+
+$totalCourse = mysqli_fetch_assoc(
+    mysqli_query($conn, "SELECT COUNT(*) AS total FROM courses")
+);
+
+$totalStudent = mysqli_fetch_assoc(
+    mysqli_query($conn, "SELECT COUNT(*) AS total FROM students")
+);
+
+$totalMentor = mysqli_fetch_assoc(
+    mysqli_query($conn, "SELECT COUNT(*) AS total FROM mentors")
+);
+
+$totalQuiz = mysqli_fetch_assoc(
+    mysqli_query($conn, "SELECT COUNT(*) AS total FROM quiz")
+);
 ?>
 
 <!DOCTYPE html>
@@ -38,7 +56,7 @@ if(!isset($_SESSION['id'])){
 
 <h4>📚 Courses</h4>
 
-<h2>12</h2>
+<h2><?= $totalCourse['total']; ?></h2>
 
 <p>Total Course</p>
 
@@ -48,7 +66,7 @@ if(!isset($_SESSION['id'])){
 
 <h4>👨‍🎓 Students</h4>
 
-<h2>35</h2>
+<h2><?= $totalStudent['total']; ?></h2>
 
 <p>Total Student</p>
 
@@ -58,7 +76,7 @@ if(!isset($_SESSION['id'])){
 
 <h4>👨‍🏫 Mentors</h4>
 
-<h2>5</h2>
+<h2><?= $totalMentor['total']; ?></h2>
 
 <p>Total Mentor</p>
 
@@ -68,7 +86,7 @@ if(!isset($_SESSION['id'])){
 
 <h4>📝 Quiz</h4>
 
-<h2>8</h2>
+<h2><?= $totalQuiz['total']; ?></h2>
 
 <p>Total Quiz</p>
 
@@ -76,13 +94,7 @@ if(!isset($_SESSION['id'])){
 
 </div>
 
-<div class="card-box">
 
-<h4>Quiz</h4>
-
-<h2>8</h2>
-
-</div>
 
 </div>
 
