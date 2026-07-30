@@ -1,11 +1,27 @@
 <nav class="navbar">
 
-    <div class="logo">
-        🎓 SmartLMS
+    <div class="search-nav">
+        <input
+            type="text"
+            placeholder="🔍 Cari Course, Student, Mentor...">
     </div>
 
-    <div class="user-info">
-        Halo, <b><?= $_SESSION['nama']; ?></b> 👋
+    <div class="profile">
+
+        <div class="profile-text">
+
+            <small>Welcome Back 👋</small><br>
+
+            <b><?= htmlspecialchars($_SESSION['nama']); ?></b>
+
+        </div>
+
+        <div class="avatar">
+
+            <?= strtoupper(substr($_SESSION['nama'],0,1)); ?>
+
+        </div>
+
     </div>
 
 </nav>

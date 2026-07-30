@@ -8,21 +8,10 @@ if (!isset($_SESSION['id'])) {
 
 include 'config/koneksi.php';
 
-$totalCourse = mysqli_fetch_assoc(
-    mysqli_query($conn, "SELECT COUNT(*) AS total FROM courses")
-);
-
-$totalStudent = mysqli_fetch_assoc(
-    mysqli_query($conn, "SELECT COUNT(*) AS total FROM students")
-);
-
-$totalMentor = mysqli_fetch_assoc(
-    mysqli_query($conn, "SELECT COUNT(*) AS total FROM mentors")
-);
-
-$totalQuiz = mysqli_fetch_assoc(
-    mysqli_query($conn, "SELECT COUNT(*) AS total FROM quiz")
-);
+$totalCourse = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total FROM courses"));
+$totalStudent = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total FROM students"));
+$totalMentor = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total FROM mentors"));
+$totalQuiz = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total FROM quiz"));
 ?>
 
 <!DOCTYPE html>
@@ -31,76 +20,220 @@ $totalQuiz = mysqli_fetch_assoc(
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Dashboard</title>
+<title>Dashboard - SmartLMS</title>
 
 <link rel="stylesheet" href="assets/css/dashboard.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
+
 
 <body>
 
 <?php include 'includes/sidebar.php'; ?>
-
 <?php include 'includes/navbar.php'; ?>
 
 <div class="content">
 
-<h1>Learning Overview</h1>
+    <!-- Welcome -->
+    <div class="welcome-banner">
 
-<p>Selamat datang kembali, <?= $_SESSION['nama']; ?> 👋</p>
+        <div>
 
-<div class="cards">
+            <h1>👋 Welcome Back, <?= htmlspecialchars($_SESSION['nama']); ?>!</h1>
 
-<div class="card-box">
+            <p>Kelola course, student, mentor, dan quiz dengan mudah.</p>
 
-<h4>📚 Courses</h4>
+        </div>
 
-<h2><?= $totalCourse['total']; ?></h2>
+        <div class="welcome-icon">
+            🎓
+        </div>
 
-<p>Total Course</p>
+    </div>
 
-</div>
+    <!-- Statistik -->
+    <div class="cards">
 
-<div class="card-box">
+        <div class="card-box">
+            <h4>📚 Courses</h4>
+            <h2><?= $totalCourse['total']; ?></h2>
+            <p>Total Course</p>
+        </div>
 
-<h4>👨‍🎓 Students</h4>
+        <div class="card-box">
+            <h4>👨‍🎓 Students</h4>
+            <h2><?= $totalStudent['total']; ?></h2>
+            <p>Total Student</p>
+        </div>
 
-<h2><?= $totalStudent['total']; ?></h2>
+        <div class="card-box">
+            <h4>👨‍🏫 Mentors</h4>
+            <h2><?= $totalMentor['total']; ?></h2>
+            <p>Total Mentor</p>
+        </div>
 
-<p>Total Student</p>
+        <div class="card-box">
+            <h4>📝 Quiz</h4>
+            <h2><?= $totalQuiz['total']; ?></h2>
+            <p>Total Quiz</p>
+        </div>
 
-</div>
+    </div>
 
-<div class="card-box">
+    <!-- Recent Data -->
+    <div class="dashboard-row">
 
-<h4>👨‍🏫 Mentors</h4>
+        <div class="panel">
 
-<h2><?= $totalMentor['total']; ?></h2>
+            <h2>📚 Recent Courses</h2>
 
-<p>Total Mentor</p>
+            <?php
+            $recentCourse = mysqli_query($conn,"
+            SELECT * FROM courses
+            ORDER BY id DESC
+            LIMIT 5");
+            ?>
 
-</div>
+            <?php while($c = mysqli_fetch_assoc($recentCourse)){ ?>
 
-<div class="card-box">
+                <div class="list-item">
+                    📚 <?= htmlspecialchars($c['nama_course']); ?>
+                </div>
 
-<h4>📝 Quiz</h4>
+            <?php } ?>
 
-<h2><?= $totalQuiz['total']; ?></h2>
+        </div>
 
-<p>Total Quiz</p>
+        <div class="panel">
 
-</div>
+            <h2>👨‍🎓 Recent Students</h2>
 
-</div>
+            <?php
+            $recentStudent = mysqli_query($conn,"
+            SELECT * FROM students
+            ORDER BY id DESC
+            LIMIT 5");
+            ?>
 
+            <?php while($s = mysqli_fetch_assoc($recentStudent)){ ?>
 
+                <div class="list-item">
+                    👨 <?= htmlspecialchars($s['nama']); ?>
+                </div>
+
+            <?php } ?>
+
+        </div>
+
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+
+        <a href="tambah_course.php" class="action-card">
+            ➕<br><br>
+            Course
+        </a>
+
+        <a href="tambah_student.php" class="action-card">
+            👨‍🎓<br><br>
+            Student
+        </a>
+
+        <a href="tambah_mentor.php" class="action-card">
+            👨‍🏫<br><br>
+            Mentor
+        </a>
+
+        <a href="tambah_quiz.php" class="action-card">
+            📝<br><br>
+            Quiz
+        </a>
+
+    </div>
+
+    <!-- Chart -->
+    <div class="chart-card">
+
+        <h2>📊 Statistik SmartLMS</h2>
+
+        <canvas id="myChart"></canvas>
+
+    </div>
 
 </div>
 
 <?php include 'includes/footer.php'; ?>
 
-</div>
+<script>
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    const ctx = document.getElementById('myChart');
+
+    if(ctx){
+
+        new Chart(ctx,{
+
+            type:'bar',
+
+            data:{
+
+                labels:[
+                    'Courses',
+                    'Students',
+                    'Mentors',
+                    'Quiz'
+                ],
+
+                datasets:[{
+
+                    label:'Jumlah Data',
+
+                    data:[
+                        <?= $totalCourse['total']; ?>,
+                        <?= $totalStudent['total']; ?>,
+                        <?= $totalMentor['total']; ?>,
+                        <?= $totalQuiz['total']; ?>
+                    ],
+
+                    backgroundColor:[
+                        '#7C3AED',
+                        '#2563EB',
+                        '#10B981',
+                        '#F59E0B'
+                    ],
+
+                    borderRadius:8
+
+                }]
+
+            },
+
+            options:{
+
+                responsive:true,
+
+                maintainAspectRatio:false,
+
+                plugins:{
+                    legend:{
+                        display:false
+                    }
+                }
+
+            }
+
+        });
+
+    }
+
+});
+
+</script>
 
 </body>
 

@@ -22,6 +22,7 @@ $result = mysqli_query($conn, "SELECT * FROM courses ORDER BY id DESC");
 <title>Courses - SmartLMS</title>
 
 <link rel="stylesheet" href="assets/css/dashboard.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 
@@ -72,10 +73,13 @@ $result = mysqli_query($conn, "SELECT * FROM courses ORDER BY id DESC");
 
                 <a href="edit_course.php?id=<?= $course['id']; ?>">✏ Edit</a>
 
-                <a href="hapus_course.php?id=<?= $course['id']; ?>"
-                   onclick="return confirm('Yakin ingin menghapus course ini?')">
-                    🗑 Hapus
-                </a>
+                <a href="#"
+class="btn-delete"
+onclick="hapusCourse(<?= $course['id']; ?>)">
+
+🗑 Hapus
+
+</a>
 
             </div>
 
@@ -116,6 +120,42 @@ search.addEventListener('keyup', function(){
     });
 
 });
+</script>
+
+<script>
+
+function hapusCourse(id){
+
+    Swal.fire({
+
+        title: 'Hapus Course?',
+
+        text: 'Data yang dihapus tidak dapat dikembalikan.',
+
+        icon: 'warning',
+
+        showCancelButton: true,
+
+        confirmButtonColor: '#7C3AED',
+
+        cancelButtonColor: '#6c757d',
+
+        confirmButtonText: 'Ya, Hapus',
+
+        cancelButtonText: 'Batal'
+
+    }).then((result) => {
+
+        if(result.isConfirmed){
+
+            window.location = 'hapus_courses.php?id=' + id;
+
+        }
+
+    });
+
+}
+
 </script>
 
 </body>

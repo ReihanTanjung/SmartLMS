@@ -10,14 +10,24 @@ include 'config/koneksi.php';
 
 if(isset($_POST['simpan'])){
 
-    $nama = $_POST['nama_course'];
-    $deskripsi = $_POST['deskripsi'];
-    $mentor = $_POST['mentor'];
+    $nama = mysqli_real_escape_string($conn, $_POST['nama_course']);
+    $deskripsi = mysqli_real_escape_string($conn, $_POST['deskripsi']);
+    $mentor = mysqli_real_escape_string($conn, $_POST['mentor']);
 
-    mysqli_query($conn,"INSERT INTO courses(nama_course,deskripsi,mentor)
-    VALUES('$nama','$deskripsi','$mentor')");
+    $insert = mysqli_query($conn,"
+        INSERT INTO courses(nama_course, deskripsi, mentor)
+        VALUES('$nama','$deskripsi','$mentor')
+    ");
 
-    header("Location: courses.php");
+    if($insert){
+        echo "<script>
+            alert('Course berhasil ditambahkan!');
+            window.location='courses.php';
+        </script>";
+    }else{
+        echo "<script>alert('Gagal menambahkan course!');</script>";
+    }
+
 }
 ?>
 
@@ -27,6 +37,7 @@ if(isset($_POST['simpan'])){
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Tambah Course</title>
 
@@ -41,34 +52,75 @@ if(isset($_POST['simpan'])){
 
 <div class="content">
 
-<h1>Tambah Course</h1>
+<div class="form-card">
+
+<h1>📚 Tambah Course</h1>
+
+<p>Lengkapi informasi course di bawah ini.</p>
 
 <form method="POST">
 
-<div class="mb-3">
+<div class="form-group">
+
 <label>Nama Course</label>
-<input type="text" name="nama_course" class="form-control" required>
+
+<input
+type="text"
+name="nama_course"
+placeholder="Contoh : HTML Dasar"
+required>
+
 </div>
 
-<div class="mb-3">
+<div class="form-group">
+
 <label>Deskripsi</label>
-<textarea name="deskripsi" class="form-control"></textarea>
+
+<textarea
+name="deskripsi"
+rows="5"
+placeholder="Masukkan deskripsi course..."
+required></textarea>
+
 </div>
 
-<div class="mb-3">
+<div class="form-group">
+
 <label>Mentor</label>
-<input type="text" name="mentor" class="form-control" required>
+
+<input
+type="text"
+name="mentor"
+placeholder="Nama Mentor"
+required>
+
 </div>
 
-<br>
+<div class="form-button">
 
-<button class="btn-purple" name="simpan">
-Simpan
+<button
+type="submit"
+name="simpan"
+class="btn-purple">
+
+💾 Simpan Course
+
 </button>
+
+<a href="courses.php" class="btn-cancel">
+
+Batal
+
+</a>
+
+</div>
 
 </form>
 
 </div>
 
+</div>
+
 </body>
+
 </html>
