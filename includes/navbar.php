@@ -21,6 +21,10 @@
             <?= strtoupper(substr($_SESSION['nama'],0,1)); ?>
 
         </div>
+    
+        <a href="logout.php" class="btn-logout">
+    🚪 Logout
+</a>
 
     </div>
 
