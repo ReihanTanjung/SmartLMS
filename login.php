@@ -1,51 +1,38 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - SmartLMS</title>
+<?php
+session_start();
+include 'config/koneksi.php';
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css">
-</head>
+if(isset($_POST['login'])){
 
-<body class="login-page">
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-<div class="login-card">
+    $query = mysqli_query($conn, "SELECT * FROM users WHERE email='$email'");
 
-    <h2>SmartLMS</h2>
-    <p>Silakan login untuk melanjutkan</p>
+    if(mysqli_num_rows($query) > 0){
 
-    <form action="" method="POST">
+        $user = mysqli_fetch_assoc($query);
 
-        <div class="mb-3">
-            <input
-                type="email"
-                class="form-control"
-                placeholder="Email"
-                required>
-        </div>
+        if(password_verify($password, $user['password'])){
 
-        <div class="mb-3">
-            <input
-                type="password"
-                class="form-control"
-                placeholder="Password"
-                required>
-        </div>
+            $_SESSION['id'] = $user['id'];
+            $_SESSION['nama'] = $user['nama'];
+            $_SESSION['role'] = $user['role'];
 
-        <button class="btn btn-login w-100">
-            Login
-        </button>
+            header("Location: dashboard.php");
+            exit;
 
-    </form>
+        }else{
 
-    <div class="text-center mt-3">
-        Belum punya akun?
-        <a href="register.php">Daftar</a>
-    </div>
+            echo "<script>alert('Password salah!');</script>";
 
-</div>
+        }
 
-</body>
-</html>
+    }else{
+
+        echo "<script>alert('Email tidak ditemukan!');</script>";
+
+    }
+
+}
+?>
